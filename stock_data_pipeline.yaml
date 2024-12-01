@@ -1,0 +1,18 @@
+id: stock_data_pipeline
+namespace: my.company
+tasks:
+  - id: fetch-stock-data
+    type: io.kestra.plugin.scripts.python.Commands
+    namespaceFiles:
+      enabled: true
+    commands:
+      - pip install pandas psycopg2-binary  # Install both pandas and psycopg2
+      - python fetch_stock_data.py  # Path to the fetch_stock_data.py script
+
+  - id: store-data-in-db
+    type: io.kestra.plugin.scripts.python.Commands
+    namespaceFiles:
+      enabled: true
+    commands:
+      - pip install pandas psycopg2-binary  # Ensure pandas and psycopg2 are installed
+      - python store_data_in_rds.py /stock_data.csv  # Correct path with space
