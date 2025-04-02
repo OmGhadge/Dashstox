@@ -147,6 +147,3 @@ streamlit run main_dashboard.py
 
 This will open up a local web server at [http://localhost:8501](http://localhost:8501), where you can view your stock dashboard.
 
---- 
-
-Let me know if you need any further adjustments!
