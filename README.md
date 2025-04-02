@@ -33,10 +33,6 @@ Dashstox is a real-time stock dashboard built using **Streamlit** for visualizat
 - **Groq AI**: Used to summarize Reddit discussions and provide a conversational assistant.
 - **PostgreSQL** (AWS RDS): Used for storing stock data.
 
-## Setup Instructions
-
-Here’s the formatted markdown version you can directly paste into your `README.md` file:
-
 ---
 
 ## Setup Instructions
