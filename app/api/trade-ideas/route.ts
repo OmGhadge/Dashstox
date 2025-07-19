@@ -15,10 +15,8 @@ const storage = new Storage({
   },
 });
 
-
 const bucket = storage.bucket(process.env.GCS_BUCKET_NAME!);
 
-// 🟢 GET all trade ideas
 export async function GET() {
   try {
     const ideas = await prisma.tradeIdea.findMany({
@@ -40,7 +38,6 @@ export async function GET() {
   }
 }
 
-// 🟢 POST a new trade idea
 export async function POST(request: NextRequest) {
   const session = await auth();
 
@@ -65,23 +62,36 @@ export async function POST(request: NextRequest) {
     let imageUrl: string | undefined;
 
     if (image) {
-      const bytes = await image.arrayBuffer();
-      const buffer = Buffer.from(bytes);
+      const buffer = Buffer.from(await image.arrayBuffer());
       const ext = path.extname(image.name);
       const filename = `${uuidv4()}${ext}`;
       const file = bucket.file(filename);
 
-      try {
-        await file.save(buffer, {
-          metadata: { contentType: image.type },
-          resumable: false,
+      console.log(` Starting upload: ${filename}`);
+
+      const stream = file.createWriteStream({
+        resumable: false,
+        contentType: image.type || 'application/octet-stream',
+        metadata: {
+          contentType: image.type,
+        },
+      });
+
+      await new Promise<void>((resolve, reject) => {
+        stream.on('error', (err) => {
+          console.error(' Upload stream error:', err);
+          reject(err);
         });
 
-        imageUrl = `https://storage.googleapis.com/${bucket.name}/${filename}`;
-      } catch (uploadError) {
-        console.error('Error uploading image to GCS:', uploadError);
-        return NextResponse.json({ error: 'Failed to upload image' }, { status: 500 });
-      }
+        stream.on('finish', () => {
+          console.log('Upload finished');
+          resolve();
+        });
+
+        stream.end(buffer);
+      });
+
+      imageUrl = `https://storage.googleapis.com/${bucket.name}/${filename}`;
     }
 
     const idea = await prisma.tradeIdea.create({
@@ -97,12 +107,11 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(idea, { status: 201 });
   } catch (error) {
-    console.error('Error creating trade idea:', error);
+    console.error(' Error creating trade idea:', error);
     return NextResponse.json({ error: 'Failed to create trade idea' }, { status: 500 });
   }
 }
 
-// 🟢 PATCH to like an idea
 export async function PATCH(request: NextRequest) {
   const session = await auth();
 
@@ -146,7 +155,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json(updated);
   } catch (error) {
-    console.error('Error liking idea:', error);
+    console.error(' Error liking idea:', error);
     return NextResponse.json({ error: 'Failed to like idea' }, { status: 500 });
   }
 }
