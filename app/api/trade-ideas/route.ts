@@ -3,14 +3,20 @@ import { prisma } from '@/lib/prisma';
 import path from 'path';
 import { Storage } from '@google-cloud/storage';
 import { v4 as uuidv4 } from 'uuid';
-import { auth } from '@/auth'; 
+import { auth } from '@/auth';
 
-const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON!);
+// ✅ Initialize GCS with env vars
 const storage = new Storage({
-  credentials,
+  projectId: process.env.GCP_PROJECT_ID,
+  credentials: {
+    client_email: process.env.GCP_CLIENT_EMAIL,
+    private_key: process.env.GCP_PRIVATE_KEY?.replace(/\\n/g, '\n'), // important for line breaks
+  },
 });
+
 const bucket = storage.bucket(process.env.GCS_BUCKET_NAME!);
 
+// 🟢 GET all trade ideas
 export async function GET() {
   try {
     const ideas = await prisma.tradeIdea.findMany({
@@ -18,7 +24,7 @@ export async function GET() {
       include: { comments: true },
     });
 
-    const ideasWithCounts = ideas.map(idea => ({
+    const ideasWithCounts = ideas.map((idea) => ({
       ...idea,
       comments: idea.comments.length,
     }));
@@ -32,10 +38,11 @@ export async function GET() {
   }
 }
 
+// 🟢 POST a new trade idea
 export async function POST(request: NextRequest) {
-  const session = await auth(); // ✅ NextAuth v5 way
+  const session = await auth();
 
-  if (!session || !session?.user?.name || !session?.user?.email) {
+  if (!session || !session.user?.email || !session.user?.name) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }
 
@@ -43,8 +50,8 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const title = formData.get('title') as string;
     const description = formData.get('description') as string;
-    const image = formData.get('image') as File | null;
     const tag = formData.get('tag') as string | undefined;
+    const image = formData.get('image') as File | null;
 
     if (!title || !description) {
       return NextResponse.json(
@@ -54,20 +61,23 @@ export async function POST(request: NextRequest) {
     }
 
     let imageUrl: string | undefined;
+
     if (image) {
       const bytes = await image.arrayBuffer();
       const buffer = Buffer.from(bytes);
       const ext = path.extname(image.name);
-      const gcsFileName = `${uuidv4()}${ext}`; // ✅ fixed string template
-      const blob = bucket.file(gcsFileName);
+      const filename = `${uuidv4()}${ext}`;
+      const file = bucket.file(filename);
+
       try {
-        await blob.save(buffer, {
-          contentType: image.type,
+        await file.save(buffer, {
+          metadata: { contentType: image.type },
           resumable: false,
         });
-        imageUrl = `https://storage.googleapis.com/${bucket.name}/${gcsFileName}`;
-      } catch (uploadErr) {
-        console.error('Error uploading image to GCS:', uploadErr);
+
+        imageUrl = `https://storage.googleapis.com/${bucket.name}/${filename}`;
+      } catch (uploadError) {
+        console.error('Error uploading image to GCS:', uploadError);
         return NextResponse.json({ error: 'Failed to upload image' }, { status: 500 });
       }
     }
@@ -76,8 +86,8 @@ export async function POST(request: NextRequest) {
       data: {
         title,
         description,
-        imageUrl,
         tag,
+        imageUrl,
         author: session.user.name,
         authorImage: session.user.image ?? null,
       },
@@ -90,8 +100,9 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// 🟢 PATCH to like an idea
 export async function PATCH(request: NextRequest) {
-  const session = await auth(); // ✅
+  const session = await auth();
 
   if (!session || !session.user?.email) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
