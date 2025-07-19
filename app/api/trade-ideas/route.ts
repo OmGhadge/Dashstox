@@ -3,10 +3,11 @@ import { prisma } from '@/lib/prisma';
 import path from 'path';
 import { Storage } from '@google-cloud/storage';
 import { v4 as uuidv4 } from 'uuid';
-import { auth } from '@/auth'; // ✅ v5 way — replaces getServerSession
+import { auth } from '@/auth'; 
 
+const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON!);
 const storage = new Storage({
-  keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+  credentials,
 });
 const bucket = storage.bucket(process.env.GCS_BUCKET_NAME!);
 
