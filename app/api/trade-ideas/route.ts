@@ -60,13 +60,16 @@ export async function POST(request: NextRequest) {
       const ext = path.extname(image.name);
       const gcsFileName = `${uuidv4()}${ext}`; // ✅ fixed string template
       const blob = bucket.file(gcsFileName);
-
-      await blob.save(buffer, {
-        contentType: image.type,
-        resumable: false,
-      });
-
-      imageUrl = `https://storage.googleapis.com/${bucket.name}/${gcsFileName}`;
+      try {
+        await blob.save(buffer, {
+          contentType: image.type,
+          resumable: false,
+        });
+        imageUrl = `https://storage.googleapis.com/${bucket.name}/${gcsFileName}`;
+      } catch (uploadErr) {
+        console.error('Error uploading image to GCS:', uploadErr);
+        return NextResponse.json({ error: 'Failed to upload image' }, { status: 500 });
+      }
     }
 
     const idea = await prisma.tradeIdea.create({
