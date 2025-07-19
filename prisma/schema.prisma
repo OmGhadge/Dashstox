@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model StockPrice {
+    id        Int      @id @default(autoincrement())
+    symbol    String
+    date      DateTime
+    open      Float
+    high      Float
+    low       Float
+    close     Float
+    volume    BigInt
+    createdAt DateTime @default(now())
+   lastUpdated DateTime? @updatedAt
+    @@unique([symbol, date])
+  }
+model User {
+  id            String   @id @default(cuid())
+  name          String?
+  email         String?  @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model TradeIdea {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  imageUrl    String?
+  createdAt   DateTime  @default(now())
+  author      String?
+  authorImage String?
+  likes       Int       @default(0)
+  comments    Comment[]
+  tag         String?
+  likesList   TradeIdeaLike[]
+}
+
+model TradeIdeaLike {
+  id          Int       @id @default(autoincrement())
+  userId      String
+  tradeIdea   TradeIdea @relation(fields: [tradeIdeaId], references: [id])
+  tradeIdeaId Int
+
+  @@unique([userId, tradeIdeaId])
+}
+
+model Comment {
+  id          Int       @id @default(autoincrement())
+  content     String
+  author      String?
+  authorImage String?
+  createdAt   DateTime  @default(now())
+  tradeIdea   TradeIdea @relation(fields: [tradeIdeaId], references: [id])
+  tradeIdeaId Int
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}

@@ -1,0 +1,23 @@
+name: Update Stocks
+
+on:
+  schedule:
+    - cron: '*/30 * * * *' # every 30 minutes (UTC)
+  workflow_dispatch: # allows manual triggering
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - run: npm install
+
+      - run: node scripts/updateStocks.js
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXT_PUBLIC_FINNHUB_API_KEY: ${{ secrets.NEXT_PUBLIC_FINNHUB_API_KEY }}
