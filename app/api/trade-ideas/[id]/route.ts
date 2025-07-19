@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { auth } from '@/auth'; 
+import { auth } from '@/auth';
 
-// GET /api/trade-ideas/[id] to fetch a trade idea
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+// ✅ GET /api/trade-ideas/[id]
+export async function GET(
+  request: NextRequest,
+context: { params: Promise<{ id: string }>} // No need to await context.params – the error is misleading
+) {
   try {
-    const id = Number(params.id);
+    const params=await context.params;
+    const id = Number(await params.id);
+
     const idea = await prisma.tradeIdea.findUnique({
       where: { id },
       include: { comments: true },
@@ -22,16 +27,20 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-// POST /api/trade-ideas/[id] to add a comment
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
-  const session = await auth(); // ⬅️ updated here
+// ✅ POST /api/trade-ideas/[id]
+export async function POST(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }>} 
+) {
+  const session = await auth();
 
   if (!session || !session.user) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   }
 
   try {
-    const id = Number(params.id);
+    const params=await context.params;
+    const id = Number(await params.id);
     const { content } = await request.json();
 
     if (!content) {

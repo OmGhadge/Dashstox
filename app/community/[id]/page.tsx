@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import AuthGuard from '@/components/AuthGuard';
 import { Users, MessageSquare, ThumbsUp, TrendingUp } from 'lucide-react';
@@ -29,7 +29,8 @@ interface TradeIdea {
   likesList?: any[];
 }
 
-export default function TradeIdeaDetail({ params }: { params: { id: string } }) {
+export default function TradeIdeaDetail() {
+  const { id } = useParams(); 
   const { data: session } = useSession();
   const [idea, setIdea] = useState<TradeIdea | null>(null);
   const [loading, setLoading] = useState(true);
@@ -44,7 +45,7 @@ export default function TradeIdeaDetail({ params }: { params: { id: string } }) 
   const fetchIdea = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/trade-ideas/${params.id}`);
+      const res = await fetch(`/api/trade-ideas/${id}`);
       if (!res.ok) throw new Error('Not found');
       const data = await res.json();
       console.log('Fetched trade idea:', data); // <-- log full idea
@@ -67,9 +68,9 @@ export default function TradeIdeaDetail({ params }: { params: { id: string } }) 
   };
 
   useEffect(() => {
-    fetchIdea();
+    if(id)fetchIdea();
     // eslint-disable-next-line
-  }, [params.id]);
+  }, [id]);
 
   const handleLike = async () => {
     if (!idea || userHasLiked) return;
@@ -88,7 +89,7 @@ export default function TradeIdeaDetail({ params }: { params: { id: string } }) 
     setCommentLoading(true);
     setCommentError(null);
     try {
-      const res = await fetch(`/api/trade-ideas/${params.id}`, {
+      const res = await fetch(`/api/trade-ideas/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: comment }),

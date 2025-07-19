@@ -4,9 +4,10 @@ import yahooFinance from 'yahoo-finance2';
 
 export async function GET(
   request: NextRequest,
-  context: { params: { symbol: string } }
+  context: { params: Promise<{ symbol: string }> } 
 ) {
-  const { symbol } = await context.params;
+  const params = await context.params; 
+  const symbol = String(params.symbol);
   const { searchParams } = request.nextUrl;
   const interval = searchParams.get('interval') || '1d';
 
