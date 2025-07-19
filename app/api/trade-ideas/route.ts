@@ -5,14 +5,16 @@ import { Storage } from '@google-cloud/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { auth } from '@/auth';
 
-// ✅ Initialize GCS with env vars
+const privateKey = process.env.GCP_PRIVATE_KEY?.replace(/\\n/g, '\n');
+
 const storage = new Storage({
   projectId: process.env.GCP_PROJECT_ID,
   credentials: {
     client_email: process.env.GCP_CLIENT_EMAIL,
-    private_key: process.env.GCP_PRIVATE_KEY?.replace(/\\n/g, '\n'), // important for line breaks
+    private_key: privateKey,
   },
 });
+
 
 const bucket = storage.bucket(process.env.GCS_BUCKET_NAME!);
 
