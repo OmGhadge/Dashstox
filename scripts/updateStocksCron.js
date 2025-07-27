@@ -1,5 +1,5 @@
 const { PrismaClient } = require('../app/generated/prisma');
-const yahooFinance = require('yahoo-finance2');
+const yahooFinance = require('yahoo-finance2').default;
 
 const prisma = new PrismaClient();
 

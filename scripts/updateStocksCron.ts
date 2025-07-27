@@ -1,5 +1,7 @@
-import { prisma } from '../lib/prisma';
+import { PrismaClient } from '../app/generated/prisma';
 import yahooFinance from 'yahoo-finance2';
+
+const prisma = new PrismaClient();
 
 async function updateAllStocks() {
   console.log('Starting stock update process...');
@@ -79,6 +81,5 @@ async function updateAllStocks() {
     await prisma.$disconnect();
   }
 }
-
 
 updateAllStocks(); 
