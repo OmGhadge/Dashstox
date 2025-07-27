@@ -12,12 +12,34 @@ try {
 
   if (process.env.GOOGLE_CREDENTIALS_JSON) {
     console.log('Using GOOGLE_CREDENTIALS_JSON for authentication');
-    const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
-    storage = new Storage({
-      projectId: credentials.project_id,
-      credentials: credentials,
-    });
-    console.log('Storage initialized with GOOGLE_CREDENTIALS_JSON');
+          try {
+        const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
+        
+        console.log('Original private key length:', credentials.private_key?.length);
+        console.log('Private key starts with:', credentials.private_key?.substring(0, 50));
+        
+        if (credentials.private_key) {
+     
+          credentials.private_key = credentials.private_key.replace(/\\n/g, '\n');
+          console.log('Fixed private key length:', credentials.private_key.length);
+          console.log('Fixed private key starts with:', credentials.private_key.substring(0, 50));
+          
+    
+          if (!credentials.private_key.includes('-----BEGIN PRIVATE KEY-----')) {
+            console.error('Private key format is invalid');
+            throw new Error('Invalid private key format');
+          }
+        }
+      
+      storage = new Storage({
+        projectId: credentials.project_id,
+        credentials: credentials,
+      });
+      console.log('Storage initialized with GOOGLE_CREDENTIALS_JSON');
+    } catch (credentialError) {
+      console.error('Error parsing GOOGLE_CREDENTIALS_JSON:', credentialError);
+      throw credentialError;
+    }
   } 
   
   else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
@@ -101,7 +123,7 @@ export async function POST(request: NextRequest) {
 
         console.log(`Starting upload: ${filename}, size: ${buffer.length} bytes`);
 
-        // Use save method instead of streams for more reliability
+       
         await file.save(buffer, {
           contentType: image.type || 'application/octet-stream',
           metadata: {
