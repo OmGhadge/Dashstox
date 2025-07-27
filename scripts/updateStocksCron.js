@@ -1,5 +1,7 @@
-const { prisma } = require('../lib/prisma');
+const { PrismaClient } = require('../app/generated/prisma');
 const yahooFinance = require('yahoo-finance2');
+
+const prisma = new PrismaClient();
 
 async function updateAllStocks() {
   console.log('Starting stock update process...');
