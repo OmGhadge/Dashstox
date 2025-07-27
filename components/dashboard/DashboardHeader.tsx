@@ -19,7 +19,7 @@ export default function DashboardHeader() {
   const { data: session, status } = useSession();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
-  // Close user menu when clicking outside
+  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (userMenuOpen) {
@@ -41,7 +41,7 @@ export default function DashboardHeader() {
     { name: 'Community', href: '/community', icon: Users },
   ];
 
-  // Determine active page based on current pathname
+  
   const [activePage, setActivePage] = useState('Dashboard');
   
   useEffect(() => {
@@ -56,14 +56,14 @@ export default function DashboardHeader() {
     <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
+          
           <div className="flex items-center space-x-8">
             <Link href="/dashboard" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
               <TrendingUp className="h-8 w-8 text-blue-600" />
               <span className="text-xl font-bold text-gray-900">Dashstox</span>
             </Link>
 
-            {/* Desktop Navigation */}
+            
             <nav className="hidden md:flex space-x-6">
               {navigationItems.map((item) => (
                 <a
@@ -82,9 +82,9 @@ export default function DashboardHeader() {
             </nav>
           </div>
 
-          {/* Right Side Actions */}
+          
           <div className="flex items-center space-x-4">
-            {/* User Profile */}
+            
             {status === "loading" ? (
               <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse"></div>
             ) : session ? (
@@ -133,7 +133,7 @@ export default function DashboardHeader() {
               </Button>
             )}
 
-            {/* Mobile Menu Button */}
+            
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 rounded-md text-gray-600 hover:text-blue-600 hover:bg-gray-100"
@@ -143,7 +143,7 @@ export default function DashboardHeader() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-200">
             <nav className="flex flex-col space-y-2">

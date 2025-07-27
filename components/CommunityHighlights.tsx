@@ -1,6 +1,6 @@
 "use client";
 
-import { Users, MessageSquare, TrendingUp, ExternalLink, ThumbsUp } from 'lucide-react';
+import { Users, MessageSquare, TrendingUp, ThumbsUp } from 'lucide-react';
 
 const communityPosts = [
   {
@@ -36,7 +36,7 @@ export default function CommunityHighlights() {
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        
         <div className="mb-8">
           <div className="flex items-center space-x-3">
             <Users className="h-6 w-6 text-blue-600" />
@@ -44,7 +44,7 @@ export default function CommunityHighlights() {
           </div>
         </div>
 
-        {/* Community Posts Grid */}
+        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {communityPosts.map((post, index) => (
             <div 
@@ -52,7 +52,7 @@ export default function CommunityHighlights() {
               className="bg-white rounded-lg p-6 border border-gray-200"
             >
               <div className="space-y-4">
-                {/* Post Header */}
+                
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
                     <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
@@ -68,7 +68,7 @@ export default function CommunityHighlights() {
           
                 </div>
 
-                {/* Post Content */}
+                
                 <div className="space-y-2">
                   <h3 className="font-semibold text-gray-900 line-clamp-2">
                     {post.title}
@@ -78,7 +78,7 @@ export default function CommunityHighlights() {
                   </p>
                 </div>
 
-                {/* Post Stats */}
+
                 <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-1 text-gray-500">

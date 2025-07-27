@@ -22,16 +22,12 @@ export default function RecentNews() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const API_KEY = process.env.NEXT_PUBLIC_FINNHUB_API_KEY;
-        if (!API_KEY) {
-          throw new Error('Finnhub API key not found. Please set NEXT_PUBLIC_FINNHUB_API_KEY in your environment variables.');
-        }
-        const response = await fetch(`https://finnhub.io/api/v1/news?category=general&token=${API_KEY}`);
+        const response = await fetch('/api/news?category=general');
         if (!response.ok) {
           throw new Error('Failed to fetch news');
         }
         const data = await response.json();
-        setNews(data.slice(0, 3)); // Show only 3 news items
+        setNews(data.slice(0, 3)); 
       } catch (error) {
         console.error('Error fetching news:', error);
       } finally {

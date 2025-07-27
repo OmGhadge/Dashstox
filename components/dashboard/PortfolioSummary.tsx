@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp, TrendingDown, DollarSign, Percent } from 'lucide-react';
+import { TrendingUp, TrendingDown, DollarSign } from 'lucide-react';
 
 const portfolioData = {
   totalValue: 125430.50,
@@ -22,7 +22,7 @@ export default function PortfolioSummary() {
       </div>
 
       <div className="space-y-4">
-        {/* Total Value */}
+        
         <div>
           <p className="text-sm text-gray-500">Total Value</p>
           <p className="text-2xl font-bold text-gray-900">
@@ -30,7 +30,7 @@ export default function PortfolioSummary() {
           </p>
         </div>
 
-        {/* Day Change */}
+        
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-500">Today's Change</p>
@@ -47,7 +47,7 @@ export default function PortfolioSummary() {
           </div>
         </div>
 
-        {/* Total Gain */}
+        
         <div className="pt-4 border-t border-gray-200">
           <p className="text-sm text-gray-500">Total Gain/Loss</p>
           <div className="flex items-center space-x-1">
@@ -58,7 +58,7 @@ export default function PortfolioSummary() {
           </div>
         </div>
 
-        {/* Quick Stats */}
+        
         <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
           <div className="text-center">
             <p className="text-xs text-gray-500">Holdings</p>

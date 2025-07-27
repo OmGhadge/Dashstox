@@ -19,7 +19,7 @@ export async function GET(
   const to = searchParams.get('to');
 
   try {
-    // 1. Try to get from DB
+    
     let prices = await prisma.stockPrice.findMany({
       where: { symbol: symbol.toUpperCase() },
       orderBy: { date: 'desc' },
@@ -34,18 +34,18 @@ export async function GET(
     }
 
     if (prices.length > 0) {
-      // Convert BigInt volume to string for frontend compatibility
+      
       const safePrices = prices.map((p: any) => ({ ...p, volume: p.volume.toString() }));
       return NextResponse.json(safePrices);
     }
 
-    // 2. If not found, fetch from API
+    
     try {
       let result = await yahooFinance.historical(symbol, { 
         period1: '2023-01-01', 
         interval: safeInterval as any
       });
-      // Filter by from/to if provided
+      
       if (from || to) {
         result = result.filter((row: any) => {
           const d = new Date(row.date);
@@ -72,19 +72,19 @@ export async function GET(
           close: day.close,
           volume: BigInt(day.volume ?? 0),
         }))
-        .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()); // DESC
+        .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()); 
 
-      // Store in DB
+      
       try {
         await prisma.stockPrice.createMany({
           data: formatted,
-          skipDuplicates: true, // Avoid duplicate entries if concurrent requests
+          skipDuplicates: true, 
         });
       } catch (dbErr) {
         console.error('Error inserting stock prices:', dbErr);
       }
 
-      // Convert BigInt volume to string for frontend compatibility
+      
       const safeFormatted = formatted.map((p: any) => ({ ...p, volume: p.volume.toString() }));
 
       return NextResponse.json(safeFormatted);

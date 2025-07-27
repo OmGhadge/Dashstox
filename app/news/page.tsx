@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
-import { Search, Clock, ExternalLink, Filter } from 'lucide-react';
+import {  Clock, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import AuthGuard from '@/components/AuthGuard';
 
@@ -20,9 +20,8 @@ interface NewsItem {
   url: string;
 }
 
-const API_KEY = process.env.NEXT_PUBLIC_FINNHUB_API_KEY;
-const NEWS_URL = `https://finnhub.io/api/v1/news?category=general&token=${API_KEY}`;
-// Optionally, handle if API_KEY is undefined.
+const NEWS_URL = '/api/news?category=general';
+
 
 const NewsCard = ({ item }: { item: NewsItem }) => {
   return (
@@ -89,7 +88,7 @@ export default function NewsPage() {
           throw new Error('Failed to fetch news');
         }
         const data = await response.json();
-        setNews(data.slice(0, 12)); // Show 12 news items
+        setNews(data.slice(0, 12)); 
       } catch (err: any) {
         setError(err.message || 'Unknown error');
       } finally {
@@ -113,14 +112,14 @@ export default function NewsPage() {
         <DashboardHeader />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          {/* Page Header */}
+        
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Financial News</h1>
             <p className="text-gray-600">Stay updated with the latest market news and financial insights</p>
           </div>
 
 
-          {/* News Grid */}
+       
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
@@ -173,7 +172,7 @@ export default function NewsPage() {
             </div>
           )}
 
-          {/* Load More Button */}
+     
           {!loading && !error && filteredNews.length > 0 && (
             <div className="text-center mt-8">
               <Button variant="outline" size="lg">

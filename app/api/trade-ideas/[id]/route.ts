@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/auth';
 
-// ✅ GET /api/trade-ideas/[id]
 export async function GET(
   request: NextRequest,
-context: { params: Promise<{ id: string }>} // No need to await context.params – the error is misleading
+context: { params: Promise<{ id: string }>} 
 ) {
   try {
     const params=await context.params;
@@ -27,7 +26,7 @@ context: { params: Promise<{ id: string }>} // No need to await context.params �
   }
 }
 
-// ✅ POST /api/trade-ideas/[id]
+
 export async function POST(
   request: NextRequest,
   context: { params: Promise<{ id: string }>} 

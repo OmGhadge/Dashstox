@@ -44,7 +44,7 @@ export default function ChartsPage() {
   const [toDate, setToDate] = useState<string>('');
   const [chartType, setChartType] = useState<'candlestick' | 'line'>('candlestick');
 
-  // KPI calculation (similar to dashboard)
+
   let price = '--', change = '--', changePercent = '--', volume = '--', isUp = true;
   if (chartData && chartData.length > 1) {
     const sorted = [...chartData].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -92,16 +92,16 @@ export default function ChartsPage() {
         
         <main className="pt-2">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-            {/* Search Bar - Above main container */}
+          
           
 
-            {/* Main Chart Container - Similar to MarketOverview */}
+          
             <div className={`transition-all duration-300 ${sidebarOpen ? 'mr-64' : 'mr-0'}`}> 
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 pb-12">
                 <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
                   <h2 className="text-xl font-semibold text-gray-900">{symbol} - Stock Chart</h2>
                   <div className="flex items-center gap-4 w-full md:w-auto">
-                    {/* Date Range Pickers */}
+                    
                     <input
                       type="date"
                       value={fromDate}
@@ -117,7 +117,7 @@ export default function ChartsPage() {
                       className="border rounded px-2 py-1 text-sm"
                       placeholder="To"
                     />
-                    {/* Search bar */}
+                    
                     <div className="relative max-w-md w-64">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Search className="h-5 w-5 text-gray-400" />
@@ -135,7 +135,7 @@ export default function ChartsPage() {
                     {searchError && (
                       <div className="text-red-600 text-sm mt-1">{searchError}</div>
                     )}
-                    {/* Indicator Multi-Select Dropdown */}
+                    
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <button className="w-48 flex items-center justify-between border border-gray-300 rounded-md px-3 py-2 text-sm bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
@@ -161,7 +161,7 @@ export default function ChartsPage() {
                         ))}
                       </DropdownMenuContent>
                     </DropdownMenu>
-                    {/* Chart type*/ }
+                    
                     <button
                       type="button"
                       onClick={() => setChartType(chartType === 'candlestick' ? 'line' : 'candlestick')}
@@ -179,7 +179,7 @@ export default function ChartsPage() {
                   </div>
                 </div>
 
-                {/* Chart Area */}
+                
                 <div className="bg-gray-50 rounded-lg p-4 h-96">
                   <ChartComponent
                     symbol={symbol}
@@ -192,7 +192,7 @@ export default function ChartsPage() {
                     chartType={chartType}
                   />
                 </div>
-                {/* KPIs below chart area, not inside h-96 */}
+                
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   <div className="text-center">
                     <p className="text-sm text-gray-500">Price</p>
@@ -223,7 +223,7 @@ export default function ChartsPage() {
           </div>
         </main>
 
-        {/* Watchlist Sidebar */}
+        
         <WatchlistSidebar 
           watchlist={watchlist} 
           onRemove={removeFromWatchlist}
@@ -231,7 +231,7 @@ export default function ChartsPage() {
           onToggle={() => setSidebarOpen(!sidebarOpen)}
         />
 
-        {/* Click outside to close dropdown */}
+        
         {showDropdown && (
           <div 
             className="fixed inset-0 z-0" 

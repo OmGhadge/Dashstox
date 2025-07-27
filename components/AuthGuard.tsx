@@ -14,7 +14,7 @@ export default function AuthGuard({ children, requireAuth = true }: AuthGuardPro
   const router = useRouter();
 
   useEffect(() => {
-    if (status === 'loading') return; // Still loading
+    if (status === 'loading') return; 
 
     if (requireAuth && !session) {
       // User is not authenticated and trying to access protected route

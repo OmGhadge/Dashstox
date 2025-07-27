@@ -1,13 +1,12 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { TrendingUp, TrendingDown, Plus, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { TrendingUp, TrendingDown, X } from 'lucide-react';
 import { useWatchlist } from '@/contexts/WatchlistContext';
 
 interface StockQuote {
-  c: number; // current price
-  dp: number; // percent change
+  c: number; 
+  dp: number; 
 }
 
 export default function Watchlist() {
@@ -23,17 +22,11 @@ export default function Watchlist() {
       }
 
       const results: Record<string, StockQuote | null> = {};
-      const API_KEY = process.env.NEXT_PUBLIC_FINNHUB_API_KEY;
-      if (!API_KEY) {
-        console.error("Finnhub API key not found. Please set NEXT_PUBLIC_FINNHUB_API_KEY in your environment variables.");
-        setLoading(false);
-        return;
-      }
 
       await Promise.all(
         watchlist.map(async (symbol) => {
           try {
-            const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${API_KEY}`);
+            const res = await fetch(`/api/quote/${symbol}`);
             if (!res.ok) throw new Error('Failed');
             const data = await res.json();
             results[symbol] = data;

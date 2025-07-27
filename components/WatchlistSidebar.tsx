@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 interface Quote {
-  c: number; // current price
-  dp: number; // percent change
+  c: number; 
+  dp: number; 
 }
 
 interface WatchlistSidebarProps {
@@ -12,8 +12,6 @@ interface WatchlistSidebarProps {
   isOpen: boolean;
   onToggle: () => void;
 }
-
-const API_KEY = process.env.NEXT_PUBLIC_FINNHUB_API_KEY;
 
 const WatchlistSidebar: React.FC<WatchlistSidebarProps> = ({ watchlist, onRemove, isOpen, onToggle }) => {
   const [prices, setPrices] = useState<Record<string, Quote | null>>({});
@@ -24,7 +22,7 @@ const WatchlistSidebar: React.FC<WatchlistSidebarProps> = ({ watchlist, onRemove
       await Promise.all(
         watchlist.map(async (symbol) => {
           try {
-            const res = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${API_KEY}`);
+            const res = await fetch(`/api/quote/${symbol}`);
             if (!res.ok) throw new Error('Failed');
             const data = await res.json();
             results[symbol] = data;
@@ -40,7 +38,7 @@ const WatchlistSidebar: React.FC<WatchlistSidebarProps> = ({ watchlist, onRemove
 
   return (
     <>
-      {/* Toggle Button */}
+      
       <button
         onClick={onToggle}
         className="fixed top-20 right-4 z-50 p-2 bg-white border border-gray-200 rounded-md shadow-sm hover:bg-gray-50 transition-colors"
@@ -48,7 +46,7 @@ const WatchlistSidebar: React.FC<WatchlistSidebarProps> = ({ watchlist, onRemove
         {isOpen ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
       </button>
 
-      {/* Sidebar */}
+        
       {isOpen && (
         <div className="fixed top-16 right-0 w-64 h-[calc(100vh-4rem)] bg-gray-50 border-l border-gray-200 shadow-lg z-40 overflow-y-auto">
           <div className="p-4">

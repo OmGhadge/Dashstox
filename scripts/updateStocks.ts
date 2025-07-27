@@ -53,10 +53,8 @@ async function updateAllStocks() {
   }
 }
 
-// Schedule to run every 15 minutes
-cron.schedule('*/30 * * * *', updateAllStocks); // Run every 30 minutes
+cron.schedule('*/30 * * * *', updateAllStocks); 
 
-// Run immediately if called directly
 if (require.main === module) {
   updateAllStocks();
 } 

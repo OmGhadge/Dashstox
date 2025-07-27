@@ -48,13 +48,13 @@ export default function TradeIdeaDetail() {
       const res = await fetch(`/api/trade-ideas/${id}`);
       if (!res.ok) throw new Error('Not found');
       const data = await res.json();
-      console.log('Fetched trade idea:', data); // <-- log full idea
+      console.log('Fetched trade idea:', data); 
       if (data.comments) {
         console.log('Type of comments:', typeof data.comments, Array.isArray(data.comments));
         console.log('Comments value:', data.comments);
       }
       setIdea(data);
-      // Check if user has liked
+      
       if (session?.user?.email && data.likesList) {
         setUserHasLiked(data.likesList.some((like: any) => like.userId === session.user?.email));
       } else {
@@ -171,7 +171,7 @@ export default function TradeIdeaDetail() {
                   </div>
                   
                 </div>
-                {/* Comments Section */}
+                
                 <div className="mb-6">
                   <h2 className="text-lg font-semibold text-gray-900 mb-2">Comments</h2>
                   {idea.comments && idea.comments.length > 0 ? (
@@ -200,7 +200,7 @@ export default function TradeIdeaDetail() {
                     <p className="text-gray-500">No comments yet.</p>
                   )}
                 </div>
-                {/* Add Comment Form */}
+                
                 <form onSubmit={handleComment} className="flex flex-col space-y-3">
                   <textarea
                     value={comment}

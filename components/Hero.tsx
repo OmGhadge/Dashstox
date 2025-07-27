@@ -5,14 +5,14 @@ import { ArrowRight, TrendingUp, BarChart3 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 
 export default function Hero() {
-  // Static NASDAQ data
+  
   const nasdaqData = { price: 13456.78, change: '+1.87%', isUp: true };
 
   return (
     <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
+          
           <div className="space-y-8">
             <div className="space-y-4">
               <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">
@@ -24,7 +24,7 @@ export default function Hero() {
               </p>
             </div>
 
-            {/* Static Index Display */}
+            
             <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
               <div className="flex items-center justify-between">
                 <div>
@@ -38,7 +38,7 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* CTA Buttons */}
+            
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
                 size="lg" 
@@ -52,10 +52,10 @@ export default function Hero() {
 
           </div>
 
-          {/* Right Content - Chart Preview */}
+          
           <div className="relative">
             <div className="bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden">
-              {/* Chart Header */}
+              
               <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-4">
@@ -69,7 +69,7 @@ export default function Hero() {
                 </div>
               </div>
 
-              {/* Simulated Chart Area */}
+              
               <div className="p-6 h-80 bg-gradient-to-br from-blue-50 to-green-50 flex items-center justify-center">
                 <div className="text-center space-y-4">
                   <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">

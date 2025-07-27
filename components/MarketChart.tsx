@@ -8,9 +8,9 @@ interface StockPrice {
     date: string;
     open: number;
     high: number;
-    low: number;
+    low: number;  
     close: number;
-    volume: string; // volume is string because of BigInt serialization
+    volume: string; 
   }
 
 export const Chart = ({ className = "", symbol, data: propData }: { className?: string; symbol: string; data?: StockPrice[] }) => {
@@ -46,7 +46,7 @@ export const Chart = ({ className = "", symbol, data: propData }: { className?: 
 
   useEffect(() => {
     if (!chartContainerRef.current || data.length === 0) return;
-    // Clean up previous chart instance by clearing the container
+
     if (chartRef.current) {
       if (chartContainerRef.current) {
         chartContainerRef.current.innerHTML = '';
@@ -73,7 +73,7 @@ export const Chart = ({ className = "", symbol, data: propData }: { className?: 
     candleSeriesRef.current = candleSeries;
 
     const candleData: CandlestickData[] = data.map((row) => ({
-      time: row.date.split('T')[0], // YYYY-MM-DD
+      time: row.date.split('T')[0], 
       open: row.open,
       high: row.high,
       low: row.low,

@@ -14,7 +14,7 @@ const WatchlistContext = createContext<WatchlistContextType | undefined>(undefin
 export function WatchlistProvider({ children }: { children: React.ReactNode }) {
   const [watchlist, setWatchlist] = useState<string[]>([]);
 
-  // Load watchlist from localStorage on mount
+  
   useEffect(() => {
     const saved = localStorage.getItem('watchlist');
     if (saved) {
@@ -26,7 +26,7 @@ export function WatchlistProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Save watchlist to localStorage whenever it changes
+    
   useEffect(() => {
     localStorage.setItem('watchlist', JSON.stringify(watchlist));
   }, [watchlist]);

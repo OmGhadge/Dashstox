@@ -2,8 +2,8 @@ name: Update Stocks
 
 on:
   schedule:
-    - cron: '*/30 * * * *' # every 30 minutes (UTC)
-  workflow_dispatch: # allows manual triggering
+    - cron: '*/30 * * * *' 
+  workflow_dispatch: 
 
 jobs:
   update:

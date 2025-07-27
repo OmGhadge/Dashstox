@@ -1,6 +1,6 @@
 "use client";
 
-import { Newspaper, ExternalLink, Clock } from 'lucide-react';
+import { Newspaper, Clock } from 'lucide-react';
 
 const newsItems = [
   {
@@ -27,7 +27,7 @@ export default function NewsHighlights() {
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        
         <div className="mb-8">
           <div className="flex items-center space-x-3">
             <Newspaper className="h-6 w-6 text-blue-600" />
@@ -35,7 +35,7 @@ export default function NewsHighlights() {
           </div>
         </div>
 
-        {/* News Grid */}
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {newsItems.map((item, index) => (
             <div 

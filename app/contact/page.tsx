@@ -15,7 +15,7 @@ export default function ContactPage() {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Contact Info */}
+          
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
               <Mail className="h-6 w-6 text-blue-600" />
@@ -23,14 +23,13 @@ export default function ContactPage() {
             </div>
             <div className="flex items-center space-x-3">
               <Phone className="h-6 w-6 text-green-600" />
-              <span className="text-gray-700 text-lg">+1 (555) 123-4567</span>
+              <span className="text-gray-700 text-lg">1800 222 222</span>
             </div>
             <div className="flex items-center space-x-3">
               <MapPin className="h-6 w-6 text-indigo-600" />
-              <span className="text-gray-700 text-lg">123 Market St, New York, NY</span>
+              <span className="text-gray-700 text-lg">123 Market St, Mumbai, India</span>
             </div>
           </div>
-          {/* Contact Form */}
           <form className="bg-gray-50 rounded-lg p-8 border border-gray-200 space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>

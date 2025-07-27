@@ -1,6 +1,6 @@
 "use client";
 
-import { Users, TrendingUp, BarChart3, Mail, Phone, MapPin } from 'lucide-react';
+import { Users, TrendingUp, BarChart3} from 'lucide-react';
 import Header from '@/components/Header';
 
 export default function AboutPage() {
@@ -9,7 +9,7 @@ export default function AboutPage() {
       <Header />
       <section className="py-32 bg-white min-h-screen">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* About Section */}
+          
           <div id="about" className="text-center space-y-4 mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
               About Dashstox
@@ -35,7 +35,7 @@ export default function AboutPage() {
               <p className="text-gray-600">Join thousands of traders sharing ideas, strategies, and market insights every day.</p>
             </div>
           </div>
-          {/* Contact Section */}
+          
           <div id="contact" className="text-center space-y-4 mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
               Contact Us

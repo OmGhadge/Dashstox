@@ -122,7 +122,7 @@ const ChartComponent: React.FC<{
 
   useEffect(() => {
     if (!chartContainerRef.current || data.length === 0) return;
-    // Clean up previous chart instance by clearing the container
+    
     if (chartRef.current) {
       if (chartContainerRef.current) {
         chartContainerRef.current.innerHTML = '';
@@ -170,7 +170,7 @@ const ChartComponent: React.FC<{
       lineSeries.setData([...lineData].sort((a, b) => (a.time > b.time ? 1 : -1)));
     }
 
-    // Add/remove MA20
+    
     if (indicators.includes('ma20')) {
       const ma20 = calcMA(data, 20);
       ma20SeriesRef.current = chart.addSeries(LineSeries, { color: '#1976d2', lineWidth: 2, lineStyle: LineStyle.Solid });
@@ -180,7 +180,7 @@ const ChartComponent: React.FC<{
       ma20SeriesRef.current = null;
     }
 
-    // Add/remove MA50
+    
     if (indicators.includes('ma50')) {
       const ma50 = calcMA(data, 50);
       ma50SeriesRef.current = chart.addSeries(LineSeries, { color: '#ff9800', lineWidth: 2, lineStyle: LineStyle.Solid });
@@ -190,7 +190,7 @@ const ChartComponent: React.FC<{
       ma50SeriesRef.current = null;
     }
 
-    // Add/remove EMA20
+    
     if (indicators.includes('ema20')) {
       const ema20 = calcEMA(data, 20);
       ema20SeriesRef.current = chart.addSeries(LineSeries, { color: '#8e24aa', lineWidth: 2, lineStyle: LineStyle.Solid });
@@ -200,7 +200,7 @@ const ChartComponent: React.FC<{
       ema20SeriesRef.current = null;
     }
 
-    // Add/remove Bollinger Bands (20, 2)
+    
     if (indicators.includes('bb20')) {
       const bb = calcBB(data, 20, 2);
       bbUpperSeriesRef.current = chart.addSeries(LineSeries, { color: '#0288d1', lineWidth: 1, lineStyle: LineStyle.Solid });
@@ -214,7 +214,7 @@ const ChartComponent: React.FC<{
       bbLowerSeriesRef.current = null;
     }
 
-    // Add/remove MA100
+    
     if (indicators.includes('ma100')) {
       const ma100 = calcMA(data, 100);
       ma100SeriesRef.current = chart.addSeries(LineSeries, { color: '#009688', lineWidth: 2, lineStyle: LineStyle.Solid });
@@ -224,7 +224,7 @@ const ChartComponent: React.FC<{
       ma100SeriesRef.current = null;
     }
 
-    // Add/remove MA200
+    
     if (indicators.includes('ma200')) {
       const ma200 = calcMA(data, 200);
       ma200SeriesRef.current = chart.addSeries(LineSeries, { color: '#e65100', lineWidth: 2, lineStyle: LineStyle.Solid });
@@ -236,7 +236,7 @@ const ChartComponent: React.FC<{
 
   }, [data, indicators, fromDate, toDate, chartType]);
 
-  // Resize chart when sidebar state changes
+  
   useEffect(() => {
     if (chartRef.current && chartContainerRef.current) {
       const resizeChart = () => {
@@ -249,12 +249,12 @@ const ChartComponent: React.FC<{
             height: newHeight,
           });
           
-          // Force a redraw to ensure the chart updates properly
+          
           chartRef.current?.timeScale().fitContent();
         }
       };
       
-      // Multiple resize attempts to ensure proper sizing
+      
       const timeoutId1 = setTimeout(resizeChart, 50);
       const timeoutId2 = setTimeout(resizeChart, 150);
       const timeoutId3 = setTimeout(resizeChart, 300);
@@ -267,7 +267,7 @@ const ChartComponent: React.FC<{
     }
   }, [sidebarOpen]);
 
-  // Also resize on window resize
+    
   useEffect(() => {
     const handleResize = () => {
       if (chartRef.current && chartContainerRef.current) {

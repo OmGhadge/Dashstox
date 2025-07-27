@@ -96,7 +96,7 @@ export default function CommunityPage() {
         
         <main className="pt-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {/* Header Section */}
+            
             <div className="mb-8">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center space-x-3">
@@ -114,7 +114,7 @@ export default function CommunityPage() {
               <p className="text-gray-600">Connect with traders, share insights, and discover new strategies</p>
             </div>
 
-          {/* Share Idea Form */}
+          
           {showForm && (
             <div className="mb-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <div className="flex items-center justify-between mb-4">
@@ -196,7 +196,7 @@ export default function CommunityPage() {
             </div>
           )}
 
-          {/* Trade Ideas Grid */}
+          
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Community Trade Ideas</h2>
             
@@ -218,7 +218,7 @@ export default function CommunityPage() {
                     className="block bg-white rounded-lg p-6 hover:shadow-md transition-shadow duration-300 border border-gray-200 cursor-pointer group"
                   >
                     <div className="space-y-4">
-                      {/* Post Header */}
+                      
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                           <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
@@ -234,7 +234,7 @@ export default function CommunityPage() {
 
                       </div>
 
-                      {/* Image */}
+                      
                       {idea.imageUrl && (
                         <div className="aspect-video overflow-hidden rounded-lg">
                           <img 
@@ -245,7 +245,7 @@ export default function CommunityPage() {
                         </div>
                       )}
 
-                      {/* Post Content */}
+                      
                       <div className="space-y-2">
                         <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
                           {idea.title}
@@ -255,7 +255,7 @@ export default function CommunityPage() {
                         </p>
                       </div>
 
-                      {/* Post Stats */}
+                      
                       <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                         <div className="flex items-center space-x-4">
                           <div className="flex items-center space-x-1 text-gray-500">

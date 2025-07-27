@@ -1,4 +1,3 @@
-// Helper functions for chart indicators
 
 export interface IndicatorPoint {
   time: string;

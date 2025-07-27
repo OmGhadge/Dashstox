@@ -1,7 +1,6 @@
 "use client";
 
-import { BarChart3, Newspaper, Users, Plus, Search, TrendingUp } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { BarChart3, Newspaper, Users, Plus } from 'lucide-react';
 
 const quickActions = [
   {
@@ -59,23 +58,7 @@ export default function QuickActions() {
         ))}
       </div>
 
-      {/* Quick Search */}
-      {/* <div className="mt-6 pt-6 border-t border-gray-200">
-        <div className="flex items-center space-x-3">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search for stocks, ETFs, or indices..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-          <Button className="bg-blue-600 hover:bg-blue-700">
-            <TrendingUp className="h-4 w-4 mr-2" />
-            Analyze
-          </Button>
-        </div>
-      </div> */}
+     
     </div>
   );
 }

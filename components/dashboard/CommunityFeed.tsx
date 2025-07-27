@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Users, MessageSquare, ThumbsUp, TrendingUp, ExternalLink } from 'lucide-react';
+import { Users, MessageSquare, ThumbsUp, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
-interface TradeIdea {
+interface TradeIdea { 
   id: number;
   title: string;
   description: string;
@@ -28,7 +28,7 @@ export default function CommunityFeed() {
           throw new Error('Failed to fetch trade ideas');
         }
         const data = await response.json();
-        setIdeas(data.slice(0, 3)); // Show only 3 ideas
+        setIdeas(data.slice(0, 3)); 
       } catch (error) {
         console.error('Error fetching trade ideas:', error);
       } finally {
@@ -131,7 +131,7 @@ export default function CommunityFeed() {
         <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
           Share Your Ideas
         </button>
-      </div>
+      </div>  
     </div>
   );
 }
