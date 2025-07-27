@@ -11,15 +11,19 @@ let storage: Storage | null = null;
 try {
 
   if (process.env.GOOGLE_CREDENTIALS_JSON) {
+    console.log('Using GOOGLE_CREDENTIALS_JSON for authentication');
     const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
     storage = new Storage({
       projectId: credentials.project_id,
       credentials: credentials,
     });
+    console.log('Storage initialized with GOOGLE_CREDENTIALS_JSON');
   } 
   
   else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    console.log('Using GOOGLE_APPLICATION_CREDENTIALS for authentication');
     storage = new Storage();
+    console.log('Storage initialized with GOOGLE_APPLICATION_CREDENTIALS');
   }
   else {
     throw new Error('No Google Cloud credentials configured');
@@ -30,6 +34,11 @@ try {
 }
 
 const bucket = storage ? storage.bucket(process.env.GCS_BUCKET_NAME!) : null;
+if (bucket) {
+  console.log('Bucket initialized:', process.env.GCS_BUCKET_NAME);
+} else {
+  console.error('Failed to initialize bucket. Storage:', !!storage, 'Bucket name:', process.env.GCS_BUCKET_NAME);
+}
 
 export async function GET() {
   try {
@@ -77,42 +86,40 @@ export async function POST(request: NextRequest) {
 
     if (image) {
       if (!storage || !bucket) {
+        console.error('Storage or bucket not configured');
         return NextResponse.json(
           { error: 'File upload service not configured' },
           { status: 500 }
         );
       }
 
-      const buffer = Buffer.from(await image.arrayBuffer());
-      const ext = path.extname(image.name);
-      const filename = `${uuidv4()}${ext}`;
-      const file = bucket.file(filename);
+      try {
+        const buffer = Buffer.from(await image.arrayBuffer());
+        const ext = path.extname(image.name);
+        const filename = `${uuidv4()}${ext}`;
+        const file = bucket.file(filename);
 
-      console.log(` Starting upload: ${filename}`);
+        console.log(`Starting upload: ${filename}, size: ${buffer.length} bytes`);
 
-      const stream = file.createWriteStream({
-        resumable: false,
-        contentType: image.type || 'application/octet-stream',
-        metadata: {
-          contentType: image.type,
-        },
-      });
-
-      await new Promise<void>((resolve, reject) => {
-        stream.on('error', (err) => {
-          console.error(' Upload stream error:', err);
-          reject(err);
+        // Use save method instead of streams for more reliability
+        await file.save(buffer, {
+          contentType: image.type || 'application/octet-stream',
+          metadata: {
+            contentType: image.type,
+          },
         });
 
-        stream.on('finish', () => {
-          console.log('Upload finished');
-          resolve();
-        });
+        console.log('Upload finished successfully');
 
-        stream.end(buffer);
-      });
-
-      imageUrl = `https://storage.googleapis.com/${bucket.name}/${filename}`;
+        imageUrl = `https://storage.googleapis.com/${bucket.name}/${filename}`;
+        console.log('Image URL generated:', imageUrl);
+      } catch (uploadError) {
+        console.error('Error during file upload:', uploadError);
+        return NextResponse.json(
+          { error: 'Failed to upload image' },
+          { status: 500 }
+        );
+      }
     }
 
     const idea = await prisma.tradeIdea.create({
