@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
-import { Users, MessageSquare, TrendingUp, ExternalLink, ThumbsUp, Plus, X, Upload, Send } from 'lucide-react';
+import { Users, MessageSquare,  ThumbsUp, Plus, X, Upload, Send } from 'lucide-react';
 import AuthGuard from '@/components/AuthGuard';
 import Link from 'next/link';
 

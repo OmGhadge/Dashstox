@@ -17,15 +17,12 @@ export default function AuthGuard({ children, requireAuth = true }: AuthGuardPro
     if (status === 'loading') return; 
 
     if (requireAuth && !session) {
-      // User is not authenticated and trying to access protected route
       router.push('/');
     } else if (!requireAuth && session) {
-      // User is authenticated and trying to access landing page
       router.push('/dashboard');
     }
   }, [session, status, requireAuth, router]);
 
-  // Show loading spinner while checking authentication
   if (status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -37,12 +34,10 @@ export default function AuthGuard({ children, requireAuth = true }: AuthGuardPro
     );
   }
 
-  // If authentication check passes, render children
   if ((requireAuth && session) || (!requireAuth && !session)) {
     return <>{children}</>;
   }
 
-  // Show loading while redirecting
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="flex flex-col items-center space-y-4">

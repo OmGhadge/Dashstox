@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import DashboardHeader from '@/components/dashboard/DashboardHeader';
 import AuthGuard from '@/components/AuthGuard';
-import { Users, MessageSquare, ThumbsUp, TrendingUp } from 'lucide-react';
+import {  MessageSquare, ThumbsUp} from 'lucide-react';
 import { useSession } from 'next-auth/react';
 
 interface Comment {

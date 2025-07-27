@@ -5,17 +5,31 @@ import { Storage } from '@google-cloud/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { auth } from '@/auth';
 
-const privateKey = process.env.GCP_PRIVATE_KEY?.replace(/\\n/g, '\n');
 
-const storage = new Storage({
-  projectId: process.env.GCP_PROJECT_ID,
-  credentials: {
-    client_email: process.env.GCP_CLIENT_EMAIL,
-    private_key: privateKey,
-  },
-});
+let storage: Storage | null = null;
 
-const bucket = storage.bucket(process.env.GCS_BUCKET_NAME!);
+try {
+
+  if (process.env.GOOGLE_CREDENTIALS_JSON) {
+    const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
+    storage = new Storage({
+      projectId: credentials.project_id,
+      credentials: credentials,
+    });
+  } 
+  
+  else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    storage = new Storage();
+  }
+  else {
+    throw new Error('No Google Cloud credentials configured');
+  }
+} catch (error) {
+  console.error('Error initializing Google Cloud Storage:', error);
+  storage = null;
+}
+
+const bucket = storage ? storage.bucket(process.env.GCS_BUCKET_NAME!) : null;
 
 export async function GET() {
   try {
@@ -62,6 +76,13 @@ export async function POST(request: NextRequest) {
     let imageUrl: string | undefined;
 
     if (image) {
+      if (!storage || !bucket) {
+        return NextResponse.json(
+          { error: 'File upload service not configured' },
+          { status: 500 }
+        );
+      }
+
       const buffer = Buffer.from(await image.arrayBuffer());
       const ext = path.extname(image.name);
       const filename = `${uuidv4()}${ext}`;

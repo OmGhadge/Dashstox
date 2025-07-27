@@ -36,7 +36,7 @@ export default function MarketOverview() {
       .finally(() => setLoading(false));
   }, [selectedIndex]);
 
-  // Calculate KPIs from data
+  
   let price = '--', change = '--', changePercent = '--', volume = '--', isUp = true;
   function formatVolume(val: string | number): string {
     const num = typeof val === 'string' ? parseFloat(val) : val;
@@ -73,12 +73,12 @@ export default function MarketOverview() {
         </select>
       </div>
 
-      {/* Main Chart Area */}
+      
       <div className="bg-gray-50 rounded-lg p-4 mb-6 h-96 flex items-center justify-center">
         <Chart className="w-full h-full" symbol={indexSymbolMap[selectedIndex]} data={data} />
       </div>
 
-      {/* Market Stats */}
+      
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="text-center">
           <p className="text-sm text-gray-500">Price</p>
