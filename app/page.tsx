@@ -1,13 +1,5 @@
-
-
-
-//     <main>
-//   <h1>Welcome from root!</h1>
-// <AuthButtons />
-// </main>
 "use client";
-
-import AuthButtons from "@/components/AuthButtons";
+  
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Features from '@/components/Features';

@@ -90,7 +90,7 @@ export default function CommunityHighlights() {
                       <span className="text-sm">{post.comments}</span>
                     </div>
                   </div>
-                  <TrendingUp className="h-4 w-4 text-green-500" />
+                 
                 </div>
               </div>
             </div>
